@@ -1,6 +1,6 @@
-#include <iostream>
-#include <cmath>
-#include <algorithm>
+#ifndef Grid_H
+#define Grid_H
+#include "ship.h"
 using namespace std;
 
 class Grid
@@ -10,56 +10,498 @@ class Grid
     public:
         void makegrid();
         void printgrid();
-        bool pointcheck (int column, int row);
-        void hitcheck (int column, int row);
-        void choosepoint (int column, int row);
-        void createship(int size);
-        void placeship ();
-        bool pshipcheck (int URH, int UCH, int URT, int UCT, int size);
+        void createship(Ship ship);
+        void changePoint(Location A, char mark);
+        void checkandchangePoint(Grid &A, Location choice);
+        char checkPoint (Location choice);
+        bool isValid (Location A);
+        void V2canCreatePoint();
+        void H2canCreatePoint();
+        void V3canCreatePoint();
+        void H3canCreatePoint();
+        void V4canCreatePoint();
+        void H4canCreatePoint();
+        void V5canCreatePoint();
+        void H5canCreatePoint();
+        void AIV2canCreatePoint();
+        void AIH2canCreatePoint();
+        void AIV3canCreatePoint();
+        void AIH3canCreatePoint();
+        void AIV4canCreatePoint();
+        void AIH4canCreatePoint();
+        void AIV5canCreatePoint();
+        void AIH5canCreatePoint();
+        bool isAlive();
 };
 
-class Location
-{
-    private:
-        int x;
-        int y;
-    public:
-        void setX(int x);
-        int getX();
-        void setY(int y);
-        int getY();
-        void displayLocation ();
-        friend ostream & operator<< (ostream &out, const Location &rhs);
-};
 
-void Location::setX(int x)
+void Grid::makegrid()
 {
-    this->x = x;
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            grid[i][j] = '.';
+        }
+    }
 }
 
-int Location::getX()
+void Grid::printgrid()
 {
-    return this->x;
+    
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            cout << grid[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
 
-void Location::setY(int y)
+void Grid::changePoint (Location choice, char mark)
 {
-    this->y = y;
+    grid[choice.getX()][choice.getY()] = mark;
 }
 
-int Location::getY()
+void Grid::checkandchangePoint(Grid &A, Location choice)
 {
-    return this->y;
+    A.changePoint(choice,checkPoint(choice));
 }
 
-void Location::displayLocation()
+char Grid::checkPoint(Location choice)
 {
-    cout << getX() << " " << getY();
+    if (grid[choice.getX()][choice.getY()] == '.')
+    {
+        cout << "MISS!" << endl;
+        return 'X';
+    }
+    else if (grid[choice.getX()][choice.getY()] == 'S')
+    {
+        cout << "HIT!" << endl;
+        return '!';
+    }
+    else
+    {
+        cout << "Point Already Chosen, place choose another" << endl;
+        int uX = 0;
+        int uY = 0;
+        cin >> uX;
+        cin >> uY;
+        choice.setX(uX);
+        choice.setY(uY);
+    }
 }
 
-ostream & operator<< (ostream &out, const Location &rhs)
+bool Grid::isValid(Location A)
 {
-    Location A = rhs;
-    out << A.getX() << " " << A.getY() << endl;
-    return out;
+    if (grid[A.getX()][A.getY()] != '.')
+    {
+        return false;
+    }
+    else 
+    {
+        return true;
+    }
 }
+
+void Grid::H2canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize2Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s2getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s2getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::V2canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize2Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s2getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s2getPoint(i), 'S');
+            }
+        }
+    }    
+}
+
+void Grid::H3canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize3Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s3getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s3getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::V3canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize3Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s3getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s3getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::H4canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize4Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s4getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s4getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::V4canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize4Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s4getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s4getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::H5canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize5Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s5getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s5getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::V5canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize5Ship ship1;
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s5getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s5getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIH2canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize2Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s2getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s2getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIV2canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize2Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s2getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s2getPoint(i), 'S');
+            }
+        }
+    }    
+}
+
+void Grid::AIH3canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize3Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s3getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s3getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIV3canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize3Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s3getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s3getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIH4canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize4Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s4getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s4getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIV4canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize4Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s4getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s4getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIH5canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        HSize5Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s5getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s5getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+void Grid::AIV5canCreatePoint()
+{
+    bool flag = false;
+    while (!flag)
+    {
+        VSize5Ship ship1((rand() % 10), (rand() % 10));
+        for (int i = 0; i < ship1.getSize(); i++)
+        {
+            flag = isValid(ship1.s5getPoint(i));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        if (flag)
+        {
+            for (int i = 0; i < ship1.getSize(); i++)
+            {
+                changePoint(ship1.s5getPoint(i), 'S');
+            }
+        }
+    }
+}
+
+bool Grid::isAlive()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (grid[i][j] == 'S')
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+#endif

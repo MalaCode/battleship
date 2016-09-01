@@ -1,14 +1,46 @@
-#include "ship.h"
-
+#include "grid.h"
+#include "UI.h"
+#include "player.h"
 int main()
 {
-    // HSize5Ship B;
-    // B.Size5ShipPrint();
-    // cout << B.getPlacement().front().getX() << " " << B.getPlacement().front().getY() << " " << endl;
-    // //cout << B.getPlacement().next().getX() << " " << B.getPlacement().next().getY() << " " << endl;
-    // cout << B.getPlacement().back().getX() << " " << B.getPlacement().back().getY() << " " << endl;
+    int uX = 0;
+    int uY = 0;
+    Player Human;
+    AI enemyAI;
+    Grid playerScreen;
+    Grid playerAttkScreen;
+    Grid AIScreen;
+    playerScreen.makegrid();
+    playerAttkScreen.makegrid();
+    AIScreen.makegrid();
     
+    
+    Human.placeShip(playerScreen);
+    enemyAI.placeShip(AIScreen);
+    AIScreen.printgrid();
+    cout << endl << "------------------------------------------------------" << endl;
+    playerScreen.printgrid();
+    
+    while (playerScreen.isAlive() && AIScreen.isAlive())
+    {
+        cout << "Choose where you want to attack " << endl;
+        cin >> uX;
+        cin >> uY;
+        Human.attack(AIScreen, uX, uY);
+        enemyAI.attack(playerScreen);
+        AIScreen.printgrid();
+        cout << endl << "------------------------------------------------------" << endl;
+        playerScreen.printgrid();
+    }
+    
+    if (playerScreen.isAlive())
+    {
+        cout << "WINNER!" << endl;
+    }
+    else
+    {
+        cout << "LOSER..." << endl;
+    }
    
-    
     return 0;
 }
