@@ -18,6 +18,10 @@ class Player
         bool attackisValid(Location A);
         void attack(Grid &A, int uX, int uY);
         void placeShip(Grid &A);
+        void createSize2Ship (Grid &A, char orientation);
+        void createSize3Ship (Grid &A, char orientation);
+        void createSize4Ship (Grid &A, char orientation);
+        void createSize5Ship (Grid &A, char orientation);
 };
 
 void Player::setTurn(int t)
@@ -32,7 +36,6 @@ int Player::getTurn()
 
 bool Player::attackisValid(Location A)
 {
-   
     for (int i = 0; i < 81; i++)
     {
         if (takenMoves[i].getX() == A.getX() && takenMoves[i].getY() == A.getY())
@@ -40,13 +43,13 @@ bool Player::attackisValid(Location A)
         return false;
         }
     }
-    if (A.getX() > 9 && A.getX() < 0 && A.getY() > 9 && A.getY() < 0)
+    if (A.getX() > 9 || A.getX() < 0 || A.getY() > 9 || A.getY() < 0)
     {
-        return true;
+        return false;
     }
     else
     {
-        return false;
+        return true;
     }
 }
 
@@ -55,23 +58,21 @@ void Player::attack(Grid &A, int uX, int uY)
     Location choice;
     choice.setX(uX);
     choice.setY(uY);
-    while (!attackisValid(choice));
+    flag bad;
+    if (attackisValid(choice))
     {
-        cout << "WHILE!" << endl;
-        if (attackisValid(choice))
-        {
-            takenMoves[taken_Counter] = choice;
-            taken_Counter++;
-            A.checkandchangePoint(A, choice);
-        }
-        else
-        {
-            cout << "ERROR OUT OF BOUNDS/MOVE ALREADY DONE, TRY AGAIN" << endl;
-            cin >> uX;
-            cin >> uY;
-            choice.setX(uX);
-            choice.setY(uY);
-        }
+        takenMoves[taken_Counter] = choice;
+        taken_Counter++;
+        A.checkandchangePoint(A, choice);
+        return;
+    }
+    else
+    {
+        cout << "Attack is not Valid, Try Again " << endl;
+        cin >> uX;
+        
+        cin >> uY;
+        attack(A, uX, uY);
     }
 }
 
@@ -81,78 +82,107 @@ void Player::placeShip(Grid &A)
     intro();
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ship1
-    orientation = chooseOrientation();
-    if (orientation == 'h')
-    {
-        A.H2canCreatePoint();
-    }
-    else if (orientation == 'v')
-    {
-        A.V2canCreatePoint(); 
-    }
-    else
-    {
-        return;    
-    }
+    cout << "Do you want a Horizontal or Verticle ship?" << endl;
+    createSize2Ship(A, orientation);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //ship2
+    cout << "Do you want a Horizontal or Verticle ship?" << endl;
+    createSize2Ship(A, orientation);
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //ship3
+    cout << "Do you want a Horizontal or Verticle ship?" << endl;
+    createSize3Ship(A, orientation);
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //ship4
+    cout << "Do you want a Horizontal or Verticle ship?" << endl;
+    createSize4Ship(A, orientation);
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //ship5
+    cout << "Do you want a Horizontal or Verticle ship?" << endl;
+    createSize5Ship(A, orientation);
+}
+
+void Player::createSize2Ship(Grid &A, char orientation)
+{
     orientation = chooseOrientation();
     if (orientation == 'h')
     {
         A.H2canCreatePoint();
+        return;
     }
     else if (orientation == 'v')
     {
         A.V2canCreatePoint(); 
+        return;
     }
     else
     {
-        return;    
+        cout << "Incorrect Input, Try Again " << endl;
+        cin >> orientation;
+        createSize2Ship(A, orientation);
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //ship3
+}
+
+void Player::createSize3Ship(Grid &A, char orientation)
+{
     orientation = chooseOrientation();
     if (orientation == 'h')
     {
         A.H3canCreatePoint();
+        return;
     }
     else if (orientation == 'v')
     {
         A.V3canCreatePoint(); 
+        return;
     }
     else
     {
-        return;    
+        cout << "Incorrect Input, Try Again " << endl;
+        cin >> orientation;
+        createSize3Ship(A, orientation);
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //ship4
-    orientation = chooseOrientation();
+}
+
+void Player::createSize4Ship(Grid &A, char orientation)
+{
+  orientation = chooseOrientation();
     if (orientation == 'h')
     {
         A.H4canCreatePoint();
+        return;
     }
     else if (orientation == 'v')
     {
         A.V4canCreatePoint(); 
+        return;
     }
     else
     {
-        return;    
+        cout << "Incorrect Input, Try Again " << endl;
+        cin >> orientation;
+        createSize4Ship(A, orientation);
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //ship5
+}    
+
+void Player::createSize5Ship(Grid &A, char orientation)
+{
     orientation = chooseOrientation();
     if (orientation == 'h')
     {
         A.H5canCreatePoint();
+        return;
     }
     else if (orientation == 'v')
     {
         A.V5canCreatePoint(); 
+        return;
     }
     else
     {
-        return;    
+        cout << "Incorrect Input, Try Again " << endl;
+        cin >> orientation;
+        createSize5Ship(A, orientation);
     }
 }
 

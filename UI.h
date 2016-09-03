@@ -10,7 +10,7 @@ void intro ()
     cout << "You have 5 ships: " << endl;
     cout << "2x Size 2 ships " << endl << "1x Size 3 ship" << endl << "1x Size 4 ship" << endl << "1x size 5 ship" << endl;
     cout << "Choose whether you want it placed Horizontally or Vertically by pressing H or V respectively, x will exit the game completely, and any other key will be ignored." << endl;
-    cout << "Do you want a Horizontal or Verticle ship?" << endl;
+
 
 }
 

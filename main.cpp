@@ -1,6 +1,8 @@
 #include "grid.h"
 #include "UI.h"
 #include "player.h"
+
+
 int main()
 {
     int uX = 0;
@@ -10,6 +12,7 @@ int main()
     Grid playerScreen;
     Grid playerAttkScreen;
     Grid AIScreen;
+    Location playerattk;
     playerScreen.makegrid();
     playerAttkScreen.makegrid();
     AIScreen.makegrid();
@@ -26,6 +29,11 @@ int main()
         cout << "Choose where you want to attack " << endl;
         cin >> uX;
         cin >> uY;
+        playerattk.setX(uX);
+        playerattk.setY(uY);
+
+       
+        
         Human.attack(AIScreen, uX, uY);
         enemyAI.attack(playerScreen);
         AIScreen.printgrid();
